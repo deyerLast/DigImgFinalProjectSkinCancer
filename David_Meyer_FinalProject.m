@@ -7,7 +7,7 @@
 
 
 
-%Decided to start working on just Melnoma skin cancer because it has a lot
+%Decided to startfigu working on just Melnoma skin cancer because it has a lot
 %of different visual ques to show that it needs to be tested by a doctor.
 %Marking this, even with a 100%, with this program only shows that it is
 %"most likely" not a gaurantee to be malignant(Cancerous).
@@ -73,7 +73,7 @@ end
 %B (Border Irregularity) Might want to create a rgb2hsv to get better
 %borders
 
-
+test = sobFilter(skinPic);
 
 
 
@@ -122,4 +122,33 @@ function med = medFilt(usePic)%There has to be a better way to implement this...
     med = pad;
 end
 
+function sobelKernel = sobFilter(usePic)
+    sobFiltOne=[-1 0 +1;
+                -2 0 +2;
+                -1 0 +1];%xDirection is done
+    sobFiltTwo=[+1 +2 +1;
+                 0 0 0;
+                -1 -2 -1];%yDirection is done
+    %sobelFiltOneImage = imfilter(usePic,sobFiltOne,'same');
+    %sobelFiltTwoImage = imfilter(usePic,sobFiltTwo,'same');
+        %Working is above.
+    sobelFiltOneImage = conv2(usePic,sobFiltOne);%Another function to loop through picture to apply Kernel
+    sobelFiltTwoImage = conv2(usePic,sobFiltTwo);
+    %sobelFilt#Image = conv2(usePic,sobfilt#,'full');
+        %Why does filter2 flip the image upside down?
+            %conv2(pic, mask) = filter2(rot90(mask,2), pic)
+            %conv2 is a bit faster than fitler, no reason for me to use
+            %filter2 here.  
+    
+    sobelKernel = sqrt(sobelFiltOneImage.^2 + sobelFiltTwoImage.^2);
+      %Edges detected better due to reading the image as a double from the
+      %begging. 
+end
 
+
+
+
+
+%After working
+    %Make an all encompassing window to show everything and the definitive
+    %thoughts for users to have an easier experience.

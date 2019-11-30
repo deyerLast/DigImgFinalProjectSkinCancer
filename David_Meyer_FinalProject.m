@@ -73,10 +73,14 @@ end
 %B (Border Irregularity) Might want to create a rgb2hsv to get better
 %borders
 
-test = sobFilter(skinPic);
-
-
-
+        %test = sobFilter(skinPic);
+        %figure,imshow(test)
+        hsvPic = rgb2hsv(picOrig);
+        figure,imshow(hsvPic)
+                %Now need to use histogram to normalize and filter out
+                %everything not needed
+        h = imhist(hsvPic);
+        figure,plot(h)
 
 %C (Color change) 
 %HSV might be best for this? or YCrCb....
@@ -143,6 +147,22 @@ function sobelKernel = sobFilter(usePic)
     sobelKernel = sqrt(sobelFiltOneImage.^2 + sobelFiltTwoImage.^2);
       %Edges detected better due to reading the image as a double from the
       %begging. 
+end
+
+%this program is to get the normalized histogram of the image
+
+function [his]=myhist(x)
+    x=floor(x);
+    r=size(x,1);
+    c=size(x,2);
+    his=zeros(1,256);
+    %calculate the histogram
+    for i=1:r
+        for j=1:c
+            his(x(i,j)+1)=his(x(i,j)+1)+1;
+        end
+    end
+    his=his./c./r;
 end
 
 

@@ -19,8 +19,7 @@
    
    %According to my incomplete nursing degree, Melanoma is a skin cancer
    %that you can detect using ASBCDE acronym.  
-        %A(Asymmetric-one side darker
-            %than the other is an example)
+        %A(Asymmetric-one side lop-sided compared to the other.)
         %B(Border irregularity-Growths with irregular, notched or scalloped
             %borders)
         %C (Color Changes-multiple colors or uneven distribution)
@@ -49,7 +48,7 @@ skinPic = skinDetect(picOrig);
 %A (Asymmetric)
   %Approach One: Divied in half and then determine if one side is bigger
         %Then rotate to see if it's bigger top and bottom...
-  %First, HAVE/NEED to get rid of anything that isn't "Black".  Threshold,
+  %First, HAVE/NEED to get rid of anything that isn't "Black".  THenhreshold,
   %skin detection... Except change the skin to white.
 
 avgPic = avgFilter(skinPic);
@@ -81,7 +80,22 @@ end
                 %everything not needed
         h = imhist(hsvPic);
         figure,plot(h)
-
+        
+        index2=0;%Get sum.
+        for index = 9 : length(h)-9%This is all that the mask fits in.
+            index2 = index2 + h(index-1)+h(index-2)+h(index-4)+h(index-8) - h(index) + h(index+1)+h(index+2)+h(index+4)+h(index+8);
+        end
+        threshold = index2.*10;%I should find the local min that is the maximum min.
+        
+        [rowX, colY] = size(Yone);
+        for row=1:rowX
+            for col=1:colY 
+                if Yone(row,col)> threshold %textThat %I know that textThat needs to be (70)
+                    Yone(row,col) = 0;
+                end
+            end
+        end
+        figure,imshow(Yone)
 %C (Color change) 
 %HSV might be best for this? or YCrCb....
 
@@ -172,3 +186,6 @@ end
 %After working
     %Make an all encompassing window to show everything and the definitive
     %thoughts for users to have an easier experience.
+    
+    %Maybe use PCA to find the characteristics of each type of cancer
+    %instead of doing all this?

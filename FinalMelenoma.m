@@ -1,8 +1,8 @@
 
-
+clc
 clear all
 close all
-
+%% B: Border
 ei = 25;
 st = 35;
 

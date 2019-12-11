@@ -1,5 +1,5 @@
 
-
+clc
 clear all
 close all
 
@@ -50,10 +50,9 @@ KM=zeros(dim(1),dim(2));
         ii=ii+1;
         KM(boundary(ii,1),boundary(ii,2))=1;
     end
-    figure
-    subplot(2,2,1),plot(boundary(:,2),boundary(:,1),'black','LineWidth',2);
-    subplot(2,2,2),imshow(KM)
-    
+figure
+subplot(2,2,1),plot(boundary(:,2),boundary(:,1),'black','LineWidth',2);
+subplot(2,2,2),imshow(KM)
 %Fill inner boundaries where lesion is located
 KM2 = imfill(KM,'holes');
 subplot(2,2,3),imshow(KM2)
